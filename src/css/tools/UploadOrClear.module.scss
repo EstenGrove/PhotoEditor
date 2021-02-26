@@ -1,0 +1,16 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+.UploadOrClear {
+	position: absolute;
+	bottom: 1rem;
+	right: 1rem;
+	width: 5rem;
+	height: 5rem;
+	border-radius: 50%;
+	border: none;
+	outline: none;
+	z-index: 10;
+	background-color: transparent;
+}

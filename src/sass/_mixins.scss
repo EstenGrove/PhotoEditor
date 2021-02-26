@@ -1,0 +1,17 @@
+@import "./_variables";
+
+@mixin fill_container {
+	width: 100%;
+	height: 100%;
+}
+
+@mixin grow_container {
+	width: 100%;
+	height: auto;
+}
+
+// base flex - display: flex;
+@mixin base_flex {
+	display: -webkit-box;
+	display: flex;
+}

@@ -1,0 +1,30 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+.Inspector {
+	width: 70rem;
+	height: 70rem;
+	border-radius: 0.5rem;
+
+	&_preview {
+		position: relative;
+		width: 100%;
+		height: 40rem;
+	}
+
+	&_color {
+		width: 100%;
+
+		&_label {
+			width: 100%;
+			@include flex_row(center, center);
+
+			&_text {
+				font-size: 1.7rem;
+				font-weight: 700;
+				color: map-get($map: $blueGreyMap, $key: "800");
+			}
+		}
+	}
+}

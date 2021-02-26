@@ -1,0 +1,24 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+.ClearButton {
+	width: 5rem;
+	height: 5rem;
+	border-radius: 50%;
+	border: none;
+	outline: none;
+	@include flex_row(center, center);
+	background-color: map-get($map: $redMap, $key: "600");
+	box-shadow: map-get($map: $shadows, $key: "redOutline");
+	z-index: inherit;
+	&:hover {
+		cursor: pointer;
+	}
+
+	&_icon {
+		width: 3rem;
+		height: 3rem;
+		fill: map-get($map: $redMap, $key: "100");
+	}
+}

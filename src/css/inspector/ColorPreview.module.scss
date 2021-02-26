@@ -1,0 +1,18 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+.ColorPreview {
+	width: 70rem;
+	height: 15rem;
+	border-radius: 0.5rem;
+	background-color: #000;
+	margin-top: 0.2rem;
+	@include flex_row(center, center);
+
+	&_color {
+		font-size: 1.5rem;
+		font-weight: 500;
+		color: #ffffff;
+	}
+}

@@ -1,25 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.scss";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { createBrowserHistory } from "history";
+// components
+import Main from "./components/Main";
+import EditorView from "./views/EditorView";
+import PlaygroundView from "./views/PlaygroundView";
+import ImageInspectorView from "./views/ImageInspectorView";
+
+export const history = createBrowserHistory();
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	return (
+		<Router history={history}>
+			<div className="App">
+				<Main>
+					<Switch>
+						<Route exact path="/" component={EditorView} />
+						<Route exact path="/play" component={PlaygroundView} />
+						<Route exact path="/inspect" component={ImageInspectorView} />
+					</Switch>
+				</Main>
+			</div>
+		</Router>
+	);
 }
 
 export default App;

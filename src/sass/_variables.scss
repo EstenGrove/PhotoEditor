@@ -1,0 +1,298 @@
+$primary_sans: "Raleway", "Roboto", "Arial", sans-serif;
+$primary_serif: "Abril Fatface", serif;
+
+$fonts: (
+	mainSans: $primary_sans,
+	mainSerif: $primary_serif,
+);
+
+$primary_background: rgba(5, 5, 5, 1);
+$secondary_background: rgba(255, 255, 255, 1);
+$primary_border: rgba(255, 255, 255, 0.075);
+$shadowBorder: inset 0 0 0 1px rgba(255, 255, 255, 0.075);
+
+$primaryColors: (
+	main: $primary_background,
+	alt: $secondary_background,
+	border: $primary_border,
+	shadowBorder: $shadowBorder,
+);
+
+// 👇 COLOR SHADES 👇 //
+
+$purple50: rgb(245, 243, 255);
+$purple100: rgb(237, 233, 254);
+$purple200: rgb(221, 214, 254);
+$purple300: rgb(196, 181, 253);
+$purple400: rgb(167, 139, 250);
+$purple500: rgb(139, 92, 246);
+$purple600: rgb(124, 58, 237);
+$purple700: rgb(109, 40, 217);
+$purple800: rgb(91, 33, 182);
+$purple900: rgb(76, 29, 149);
+
+// BLUE SHADES
+$blue50: rgb(239, 246, 255);
+$blue100: rgb(219, 234, 254);
+$blue200: rgb(191, 219, 254);
+$blue300: rgb(147, 197, 253);
+$blue400: rgb(96, 165, 250);
+$blue500: rgb(59, 130, 246);
+$blue600: rgb(37, 99, 235);
+$blue700: rgb(29, 78, 216);
+$blue800: rgb(30, 64, 175);
+$blue900: rgb(30, 58, 138);
+
+// RED SHADES
+$red50: rgb(254, 242, 242);
+$red100: rgb(254, 226, 226);
+$red200: rgb(254, 202, 202);
+$red300: rgb(252, 165, 165);
+$red400: rgb(248, 113, 113);
+$red500: rgb(239, 68, 68);
+$red600: rgb(220, 38, 38);
+$red700: rgb(185, 28, 28);
+$red800: rgb(153, 27, 27);
+$red900: rgb(127, 29, 29);
+
+// PINK SHADES
+$pink100: rgb(255, 245, 247);
+$pink200: rgb(254, 215, 226);
+$pink300: rgb(251, 182, 206);
+$pink400: rgb(246, 135, 179);
+$pink500: rgb(237, 100, 166);
+$pink600: rgb(213, 63, 140);
+$pink700: rgb(184, 50, 128);
+$pink800: rgb(151, 38, 109);
+$pink900: rgb(112, 36, 89);
+
+// GREEN SHADES
+$green50: rgb(236, 253, 245);
+$green100: rgb(209, 250, 229);
+$green200: rgb(167, 243, 208);
+$green300: rgb(110, 231, 183);
+$green400: rgb(52, 211, 153);
+$green500: rgb(16, 185, 129);
+$green600: rgb(5, 150, 105);
+$green700: rgb(4, 120, 87);
+$green800: rgb(6, 95, 70);
+$green900: rgb(6, 78, 59);
+
+// YELLOW SHADES
+$yellow50: rgb(255, 251, 235);
+$yellow100: rgb(254, 243, 199);
+$yellow200: rgb(253, 230, 138);
+$yellow300: rgb(252, 211, 77);
+$yellow400: rgb(251, 191, 36);
+$yellow500: rgb(245, 158, 11);
+$yellow600: rgb(217, 119, 6);
+$yellow700: rgb(180, 83, 9);
+$yellow800: rgb(146, 64, 14);
+$yellow900: rgb(120, 53, 15);
+
+// ORANGE SHADES
+$orange50: rgb(255, 247, 237);
+$orange100: rgb(255, 237, 213);
+$orange200: rgb(254, 215, 170);
+$orange300: rgb(253, 186, 116);
+$orange400: rgb(251, 146, 60);
+$orange500: rgb(249, 115, 22);
+$orange600: rgb(234, 88, 12);
+$orange700: rgb(194, 65, 12);
+$orange800: rgb(154, 52, 18);
+$orange900: rgb(124, 45, 18);
+
+// GREY SHADES
+$grey50: rgb(250, 250, 250);
+$grey100: rgb(244, 244, 245);
+$grey200: rgb(228, 228, 231);
+$grey300: rgb(212, 212, 216);
+$grey400: rgb(161, 161, 170);
+$grey500: rgb(113, 113, 122);
+$grey600: rgb(82, 82, 91);
+$grey700: rgb(63, 63, 70);
+$grey800: rgb(39, 39, 42);
+$grey900: rgb(24, 24, 27);
+
+// BLUE-GREY SHADES
+$blueGrey50: rgb(248, 250, 252);
+$blueGrey100: rgb(241, 245, 249);
+$blueGrey200: rgb(226, 232, 240);
+$blueGrey300: rgb(203, 213, 225);
+$blueGrey400: rgb(148, 163, 184);
+$blueGrey500: rgb(100, 116, 139);
+$blueGrey600: rgb(71, 85, 105);
+$blueGrey700: rgb(51, 65, 85);
+$blueGrey800: rgb(30, 41, 59);
+$blueGrey900: rgb(15, 23, 42);
+
+// TEAL SHADES
+$teal100: rgb(230, 255, 250);
+$teal200: rgb(178, 245, 234);
+$teal300: rgb(129, 230, 217);
+$teal400: rgb(79, 209, 197);
+$teal500: rgb(56, 178, 172);
+$teal600: rgb(49, 151, 149);
+$teal700: rgb(44, 122, 123);
+$teal800: rgb(40, 94, 97);
+$teal900: rgb(35, 78, 82);
+
+//////////////////////////////////////
+////////// 👇 COLOR MAPS 👇 //////////
+//////////////////////////////////////
+
+$purpleMap: (
+	"50": $purple50,
+	"100": $purple100,
+	"200": $purple200,
+	"300": $purple300,
+	"400": $purple400,
+	"500": $purple500,
+	"600": $purple600,
+	"700": $purple700,
+	"800": $purple800,
+	"900": $purple900,
+);
+
+$blueMap: (
+	"50": $blue50,
+	"100": $blue100,
+	"200": $blue200,
+	"300": $blue300,
+	"400": $blue400,
+	"500": $blue500,
+	"600": $blue600,
+	"700": $blue700,
+	"800": $blue800,
+	"900": $blue900,
+);
+$redMap: (
+	"50": $red50,
+	"100": $red100,
+	"200": $red200,
+	"300": $red300,
+	"400": $red400,
+	"500": $red500,
+	"600": $red600,
+	"700": $red700,
+	"800": $red800,
+	"900": $red900,
+);
+$greenMap: (
+	"50": $green50,
+	"100": $green100,
+	"200": $green200,
+	"300": $green300,
+	"400": $green400,
+	"500": $green500,
+	"600": $green600,
+	"700": $green700,
+	"800": $green800,
+	"900": $green900,
+);
+$yellowMap: (
+	"50": $yellow50,
+	"100": $yellow100,
+	"200": $yellow200,
+	"300": $yellow300,
+	"400": $yellow400,
+	"500": $yellow500,
+	"600": $yellow600,
+	"700": $yellow700,
+	"800": $yellow800,
+	"900": $yellow900,
+);
+$orangeMap: (
+	"50": $orange50,
+	"100": $orange100,
+	"200": $orange200,
+	"300": $orange300,
+	"400": $orange400,
+	"500": $orange500,
+	"600": $orange600,
+	"700": $orange700,
+	"800": $orange800,
+	"900": $orange900,
+);
+$pinkMap: (
+	"100": $pink100,
+	"200": $pink200,
+	"300": $pink300,
+	"400": $pink400,
+	"500": $pink500,
+	"600": $pink600,
+	"700": $pink700,
+	"800": $pink800,
+	"900": $pink900,
+);
+$tealMap: (
+	"100": $teal100,
+	"200": $teal200,
+	"300": $teal300,
+	"400": $teal400,
+	"500": $teal500,
+	"600": $teal600,
+	"700": $teal700,
+	"800": $teal800,
+	"900": $teal900,
+);
+$greyMap: (
+	"50": $grey50,
+	"100": $grey100,
+	"200": $grey200,
+	"300": $grey300,
+	"400": $grey400,
+	"500": $grey500,
+	"600": $grey600,
+	"700": $grey700,
+	"800": $grey800,
+	"900": $grey900,
+);
+$blueGreyMap: (
+	"50": $blueGrey50,
+	"100": $blueGrey100,
+	"200": $blueGrey200,
+	"300": $blueGrey300,
+	"400": $blueGrey400,
+	"500": $blueGrey500,
+	"600": $blueGrey600,
+	"700": $blueGrey700,
+	"800": $blueGrey800,
+	"900": $blueGrey900,
+);
+
+// ☝️ COLOR SHADES ☝️ //
+
+$light_shadow: 0px 1px 7px -1px rgba(0, 0, 0, 0.25);
+$medium_shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+$heavy_shadow: 3px 4px 16px -1px rgba(0, 0, 0, 0.75);
+$subtle_shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+$medSubtle_shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+$lightMedium_shadow: 0 10px 20px rgba(0, 0, 0, 0.19),
+	0 6px 6px rgba(0, 0, 0, 0.23);
+// hover shadows
+$main_outline: 0 0 0 2px hsla(240, 100%, 50%, 0.3);
+$purple_outline: 0 0 0 2px hsla(242, 89%, 64%, 1);
+$red_outline: 0 0 0 2px hsla(352, 70%, 50%, 0.6);
+$altRed_outline: 0 0 0 2px hsla(352, 70%, 60%, 0.6);
+$green_outline: 0 0 0 2px hsla(170, 100%, 39%, 0.6);
+$orange_outline: 0 0 0 2px hsla(11, 100%, 75%, 0.6);
+$yellow_outline: 0 0 0 2px hsla(39, 100%, 70%, 1);
+$white_outline: 0 0 0 1px hsla(0, 0%, 100%, 0.5);
+
+$shadows: (
+	light: $light_shadow,
+	medium: $medium_shadow,
+	heavy: $heavy_shadow,
+	subtle: $subtle_shadow,
+	medSubtle: $medSubtle_shadow,
+	lightMedium: $lightMedium_shadow,
+	mainOutline: $main_outline,
+	// hover shadows
+	purpleOutline: $purple_outline,
+	redOutline: $red_outline,
+	greenOutline: $green_outline,
+	orangeOutline: $orange_outline,
+	yellowOutline: $yellow_outline,
+	whiteOutline: $white_outline,
+);

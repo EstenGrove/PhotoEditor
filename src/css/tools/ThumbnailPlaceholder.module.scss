@@ -1,0 +1,52 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+.ThumbnailPlaceholder {
+	width: 10rem;
+	height: 10rem;
+	min-width: 10rem;
+	min-height: 10rem;
+	max-width: 10rem;
+	max-height: 10rem;
+	border-radius: 0.5rem;
+	border: none;
+	outline: none;
+	@include flex_col(center, center);
+	flex-basis: 10rem;
+	background-color: transparent;
+	border: 1px solid map-get($map: $blueGreyMap, $key: "700");
+	margin: 0 1rem;
+	&:hover {
+		cursor: pointer;
+		border: 1px solid map-get($map: $blueGreyMap, $key: "400");
+	}
+	&:hover &_icon {
+		fill: map-get($map: $blueGreyMap, $key: "400");
+		cursor: pointer;
+	}
+	&:hover &_text {
+		color: map-get($map: $blueGreyMap, $key: "400");
+		cursor: pointer;
+	}
+	&:disabled {
+		opacity: 0.3;
+	}
+
+	&_icon {
+		width: 5rem;
+		height: 5rem;
+		fill: map-get($map: $blueGreyMap, $key: "700");
+		&:hover {
+			cursor: pointer;
+		}
+	}
+	&_text {
+		font-size: 1.3rem;
+		font-weight: 500;
+		color: map-get($map: $blueGreyMap, $key: "700");
+		&:hover {
+			cursor: pointer;
+		}
+	}
+}

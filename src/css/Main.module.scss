@@ -1,0 +1,7 @@
+@import "../sass/variables";
+@import "../sass/mixins";
+@import "../sass/custom";
+
+.Main {
+	@include fill_container;
+}

@@ -1,0 +1,16 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+.EditorPreview {
+	width: 80%;
+	height: 40rem;
+	display: block;
+	margin: 0 auto;
+	margin-top: 5rem;
+
+	&_inner {
+		@include fill_container;
+		// border: 1px solid #ffffff;
+	}
+}

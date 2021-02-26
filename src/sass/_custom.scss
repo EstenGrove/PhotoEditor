@@ -1,0 +1,31 @@
+@import "./variables";
+@import "./mixins";
+@import "./animations";
+
+// handles flex rows
+@mixin flex_row($rowType, $colType, $wrapType: nowrap) {
+	@include base_flex;
+	justify-content: $rowType;
+	align-items: $colType;
+	flex-wrap: $wrapType;
+}
+
+// handles flex columns
+@mixin flex_col($rowType, $colType, $wrapType: nowrap) {
+	@include base_flex;
+	flex-direction: column;
+	justify-content: $rowType;
+	align-items: $colType;
+	flex-wrap: $wrapType;
+}
+
+// replaces the "focusMode" mixin in "mixins.scss"
+@mixin add_center_focus($elWidth, $elHeight) {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	margin-left: -#{$elWidth / 2};
+	margin-top: -#{$elHeight / 2};
+	box-shadow: map-get($map: $shadows, $key: "focusMode");
+	z-index: 50;
+}

@@ -1,0 +1,45 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+$totalWidth: 100%;
+
+.ThumbnailsBar {
+	width: 100%;
+	max-width: 120rem;
+	height: 13rem;
+	padding: 0.5rem 0.5rem;
+	border-radius: 0.5rem;
+	border: 2px solid #000;
+	background-color: map-get($map: $primaryColors, $key: "main");
+	margin-top: 2rem;
+	@include flex_row(flex-start, center);
+
+	&_original {
+		width: 12rem;
+		height: 100%;
+		border-radius: 0.5rem;
+		margin-right: 1rem;
+		@include flex_col(center, center);
+
+		&_label {
+			font-size: 1.3rem;
+			font-weight: 500;
+			color: map-get($map: $primaryColors, $key: "alt");
+			text-align: center;
+			margin-top: 0.2rem;
+			justify-self: flex-end;
+		}
+	}
+	&_thumbnails {
+		// width: 105rem;
+		// width: clamp(15rem, 100%, 105rem);
+		border-radius: 0.5rem;
+		height: 100%;
+		@include flex_row(center, center);
+		overflow-x: scroll;
+	}
+}
+
+@media only screen and (max-width: 1200px) {
+}

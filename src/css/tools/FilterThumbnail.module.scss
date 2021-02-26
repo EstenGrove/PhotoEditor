@@ -1,0 +1,14 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+.FilterThumbnail {
+	width: 10rem;
+	height: 10rem;
+	border-radius: 0.5rem;
+
+	&_img {
+		@include fill_container;
+		border-radius: 0.5rem;
+	}
+}

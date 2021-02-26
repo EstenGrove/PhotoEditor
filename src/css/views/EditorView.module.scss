@@ -1,0 +1,30 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+.EditorView {
+	@include fill_container;
+	padding: 2rem;
+
+	&_header {
+		width: 100%;
+		margin-bottom: 4rem;
+
+		&_title {
+			font-size: 3rem;
+			font-weight: 700;
+			color: map-get($map: $blueGreyMap, $key: "700");
+			& > b {
+				color: map-get($map: $purpleMap, $key: "600");
+				font-family: "Open Sans";
+				font-style: italic;
+			}
+		}
+	}
+	&_editor {
+		@include grow_container;
+		@include flex_row(center, center);
+		min-height: 30rem;
+		padding-bottom: 2rem;
+	}
+}

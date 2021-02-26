@@ -1,0 +1,35 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+.UploadButton {
+	border: none;
+	outline: none;
+	width: 5rem;
+	height: 5rem;
+	border-radius: 50%;
+	z-index: inherit;
+
+	&_input {
+		display: none;
+	}
+	&_label {
+		@include fill_container;
+		@include flex_row(center, center);
+		background-color: map-get($map: $purpleMap, $key: "600");
+		border-radius: 50%;
+		&:hover {
+			cursor: pointer;
+			box-shadow: map-get($map: $shadows, $key: "mainOutline");
+		}
+		&:hover &_icon {
+			cursor: pointer;
+		}
+
+		&_icon {
+			width: 3rem;
+			height: 3rem;
+			fill: map-get($map: $purpleMap, $key: "100");
+		}
+	}
+}

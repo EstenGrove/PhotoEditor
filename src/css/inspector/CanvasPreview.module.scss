@@ -1,0 +1,15 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+.CanvasPreview {
+	width: 70rem;
+	height: 40rem;
+	border-radius: 0.5rem;
+	background-color: #000;
+
+	&_canvas {
+		border-radius: 0.5rem;
+		border: none;
+	}
+}

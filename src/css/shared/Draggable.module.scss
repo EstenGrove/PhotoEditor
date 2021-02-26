@@ -1,0 +1,12 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+.Draggable {
+	position: absolute;
+	width: 35rem;
+	height: 25rem;
+	border-radius: 0.5rem;
+	border: 1px solid #000;
+	background-color: #000;
+}

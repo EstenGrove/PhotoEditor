@@ -1,0 +1,65 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+.PreviewDownload {
+	width: 35rem;
+	height: 20rem;
+	border-radius: 1rem;
+	background-color: #eaecef;
+	position: fixed;
+	bottom: 2rem;
+	left: 2rem;
+	z-index: 1000;
+	box-shadow: map-get($map: $shadows, $key: "heavy");
+
+	&_preview {
+		width: 100%;
+		height: 100%;
+		border-radius: 1rem;
+	}
+	&_cancel {
+		position: absolute;
+		top: 0.5rem;
+		right: 0.5rem;
+		width: 3rem;
+		height: 3rem;
+		@include flex_row(center, center);
+		border-radius: 50%;
+		background-color: #000;
+		border: none;
+		outline: none;
+		&:hover {
+			cursor: pointer;
+			border: 1px solid #ffffff;
+		}
+
+		&_icon {
+			width: 1.8rem;
+			height: 1.8rem;
+			fill: #ffffff;
+		}
+	}
+	&_save {
+		position: absolute;
+		bottom: 1rem;
+		left: 50%;
+		transform: translateX(-50%);
+		background-color: #000;
+		width: 3rem;
+		height: 3rem;
+		@include flex_row(center, center);
+		border-radius: 50%;
+		border: none;
+		outline: none;
+		&:hover {
+			cursor: pointer;
+			border: 1px solid #ffffff;
+		}
+		&_icon {
+			width: 1.8rem;
+			height: 1.8rem;
+			fill: #ffffff;
+		}
+	}
+}
