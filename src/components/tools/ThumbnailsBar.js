@@ -6,6 +6,7 @@ import { isEmptyVal } from "../../helpers/utils_types";
 // components
 import ImagePreview from "./ImagePreview";
 import ThumbnailPlaceholder from "./ThumbnailPlaceholder";
+import FiltersPanel from "./FiltersPanel";
 
 // THUMBNAILS:
 // - Filters:
@@ -29,9 +30,9 @@ const setWidth = (ref) => {
 };
 
 const ThumbnailsBar = ({
-	imgRef,
 	src = null,
 	handleFilters,
+	imgSettings = {},
 	activeFilters = [],
 }) => {
 	const barRef = useRef();
@@ -42,64 +43,69 @@ const ThumbnailsBar = ({
 
 	return (
 		<aside className={styles.ThumbnailsBar} ref={barRef}>
-			<div className={styles.ThumbnailsBar_original}>
-				<ImagePreview imgSrc={src} imgRef={imgRef} />
-				<span className={styles.ThumbnailsBar_original_label}>Original</span>
-			</div>
 			<div className={styles.ThumbnailsBar_thumbnails} style={customStyles}>
 				<ThumbnailPlaceholder
+					key="BLUR"
+					text="Blur"
 					enableFilter={() => handleFilters("blur")}
 					isActive={activeFilters.includes("blur")}
-					text="Blur"
-					isDisabled={!src}
+					isDisabled={!src || isEmptyVal(src)}
 				/>
 				<ThumbnailPlaceholder
+					key="BRIGHTNESS"
+					text="Brightness"
 					enableFilter={() => handleFilters("brightness")}
 					isActive={activeFilters.includes("brightness")}
-					text="Brightness"
-					isDisabled={!src}
+					isDisabled={!src || isEmptyVal(src)}
 				/>
 				<ThumbnailPlaceholder
+					key="SEPIA"
+					text="Sepia"
 					enableFilter={() => handleFilters("sepia")}
 					isActive={activeFilters.includes("sepia")}
-					text="Sepia"
-					isDisabled={!src}
+					isDisabled={!src || isEmptyVal(src)}
 				/>
 				<ThumbnailPlaceholder
+					key="GRAYSCALE"
+					text="Grayscale"
 					enableFilter={() => handleFilters("grayscale")}
 					isActive={activeFilters.includes("grayscale")}
-					text="Grayscale"
-					isDisabled={!src}
+					isDisabled={!src || isEmptyVal(src)}
 				/>
 				<ThumbnailPlaceholder
+					key="CONTRAST"
+					text="Contrast"
 					enableFilter={() => handleFilters("contrast")}
 					isActive={activeFilters.includes("contrast")}
-					text="Contrast"
-					isDisabled={!src}
+					isDisabled={!src || isEmptyVal(src)}
 				/>
 				<ThumbnailPlaceholder
+					key="HUE-ROTATE"
+					text="Hue-Rotate"
 					enableFilter={() => handleFilters("hue-rotate")}
 					isActive={activeFilters.includes("hue-rotate")}
-					text="Hue-Rotate"
-					isDisabled={!src}
+					isDisabled={!src || isEmptyVal(src)}
 				/>
 				<ThumbnailPlaceholder
+					key="INVERT"
+					text="Invert"
 					enableFilter={() => handleFilters("invert")}
 					isActive={activeFilters.includes("invert")}
-					text="Invert"
-					isDisabled={!src}
+					isDisabled={!src || isEmptyVal(src)}
 				/>
 				<ThumbnailPlaceholder
+					key="SATURATE"
+					text="Saturate"
 					enableFilter={() => handleFilters("saturate")}
 					isActive={activeFilters.includes("saturate")}
-					text="Saturate"
-					isDisabled={!src}
+					isDisabled={!src || isEmptyVal(src)}
 				/>
 				<ThumbnailPlaceholder
+					key="DROP-SHADOW"
+					text="Drop-Shadow"
 					enableFilter={() => handleFilters("drop-shadow")}
 					isActive={activeFilters.includes("drop-shadow")}
-					text="Drop-Shadow"
-					isDisabled={!src}
+					isDisabled={!src || isEmptyVal(src)}
 				/>
 			</div>
 		</aside>

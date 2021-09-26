@@ -1,0 +1,117 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+@mixin rangeThumb {
+	width: 1.8rem;
+	height: 1.8rem;
+	border-radius: 50%;
+	background-color: map-get($map: $blueGreyMap, $key: "700");
+	margin-top: -0.8rem;
+	cursor: pointer;
+}
+@mixin rangeTrack {
+	width: 100%;
+	height: 0.5rem;
+	border-radius: 5rem;
+	cursor: pointer;
+	background-color: map-get($map: $blueGreyMap, $key: "100");
+	border: 1px solid map-get($map: $blueGreyMap, $key: "600");
+}
+
+.RangeSlider {
+	width: max-content;
+	min-width: 35rem;
+	height: max-content;
+	padding: 0.2rem 0.5rem;
+	border-radius: 0.5rem;
+
+	&_value {
+		width: 100%;
+		@include flex_row(center, center);
+	}
+
+	&_range {
+		width: 100%;
+		height: 100%;
+		@include flex_row(center, center);
+		position: relative;
+
+		& input[type="range"] {
+			width: 100%;
+			height: auto;
+			position: absolute;
+			-webkit-appearance: none;
+			margin-bottom: 1rem;
+
+			// Thumb
+			&::-webkit-slider-thumb {
+				-webkit-appearance: none; // needed again for Chrome & Safari
+				@include rangeThumb;
+				&:hover {
+					cursor: pointer;
+					box-shadow: map-get($map: $shadows, $key: "heavy");
+				}
+			}
+
+			&::-moz-range-thumb {
+				@include rangeThumb;
+			}
+
+			&::-ms-thumb {
+				@include rangeThumb;
+			}
+
+			// Track
+			&::-webkit-slider-runnable-track {
+				@include rangeTrack;
+			}
+
+			&::-moz-range-track {
+				@include rangeTrack;
+			}
+
+			&::-ms-track {
+				@include rangeTrack;
+			}
+			&:focus {
+				// override outline/background on focus
+				background: none;
+				outline: none;
+			}
+		}
+		// MARKERS
+		&_markers {
+			width: 100%;
+			height: 4rem;
+			@include flex_row(space-between, flex-end);
+			list-style: none;
+			font-family: "Open Sans";
+			margin-top: 1rem;
+
+			&_label {
+				position: relative;
+				text-align: right;
+				font-size: 1.4rem;
+				color: map-get($map: $blueGreyMap, $key: "600");
+
+				&::after {
+					display: block;
+					position: absolute;
+					top: -1rem;
+					left: 0.4rem;
+				}
+			}
+		}
+	}
+}
+
+input[type="range"]::-webkit-slider-thumb {
+	@include rangeThumb;
+}
+input[type="range"]::-moz-range-thumb {
+	@include rangeThumb;
+}
+input[type="range"]::-ms-thumb {
+	@include rangeThumb;
+}

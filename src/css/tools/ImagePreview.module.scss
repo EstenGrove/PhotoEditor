@@ -3,14 +3,14 @@
 @import "../../sass/custom";
 
 .ImagePreview {
-	width: 10rem;
-	height: 10rem;
+	min-width: 10rem;
+	min-height: 10rem;
 	border-radius: 0.5rem;
 	border: none;
 
 	&_img {
-		border: none;
 		@include fill_container;
+		border: none;
 		border-radius: 0.5rem;
 	}
 }

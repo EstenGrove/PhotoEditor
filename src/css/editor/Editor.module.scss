@@ -5,10 +5,11 @@
 .Editor {
 	width: 120rem;
 	height: auto;
-	border-radius: 0.5rem;
+	border-radius: 1rem;
 
 	&_controls {
 		width: 100%;
+		border-radius: 1rem;
 
 		&_reset {
 			padding: 0.5rem 1.2rem;
@@ -22,12 +23,14 @@
 		}
 	}
 
+	// actual window editor
 	&_window {
 		background-color: map-get($map: $primaryColors, $key: "main");
 		width: 120rem;
 		height: 70rem;
 		position: relative;
-		border-radius: 0.5rem;
+		border-radius: 1rem;
+		z-index: 3;
 	}
 	&_thumbnails {
 		width: 100%;
@@ -41,6 +44,7 @@
 	.Editor {
 		width: 100%;
 		height: 70rem;
+		border-radius: 1rem;
 
 		&_window {
 			width: 100%;

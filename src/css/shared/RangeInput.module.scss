@@ -1,0 +1,29 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+.RangeInput {
+	width: 45rem;
+	padding: 0.3rem 0.5rem;
+	height: max-content;
+	border-radius: 5rem;
+	background-color: map-get($map: $blueGreyMap, $key: "800");
+	@include flex_col(center, center);
+
+	&_value {
+		font-size: 1.4rem;
+		font-weight: 500;
+		font-family: "Open Sans";
+		color: #ffffff;
+	}
+
+	&_range {
+		width: 100%;
+		height: auto;
+		@include flex_row(center, center);
+
+		&_dots {
+			height: 4rem;
+		}
+	}
+}

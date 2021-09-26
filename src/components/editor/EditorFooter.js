@@ -6,27 +6,44 @@ import EditorButton from "./EditorButton";
 const EditorFooter = ({
 	activeTool = null,
 	initCrop,
-	initFilters,
 	initAnnotate,
+	initFineTune,
+	selectActiveTool,
 }) => {
 	return (
 		<div className={styles.EditorFooter}>
 			<div className={styles.EditorFooter_topRow}>{/* ROTATE & ZOOM UI */}</div>
 			<div className={styles.EditorFooter_bottomRow}>
 				<EditorButton
-					isActive={activeTool === "crop"}
+					isActive={activeTool === "CROP"}
 					icon="crop"
-					handleClick={initCrop}
+					handleClick={() => {
+						selectActiveTool("CROP");
+						initCrop();
+					}}
 				/>
 				<EditorButton
-					isActive={activeTool === "filters"}
+					isActive={activeTool === "FILTERS"}
+					icon="filter"
+					handleClick={() => {
+						selectActiveTool("FILTERS");
+					}}
+				/>
+				<EditorButton
+					isActive={activeTool === "FINE-TUNE"}
 					icon="finetune"
-					handleClick={initFilters}
+					handleClick={() => {
+						selectActiveTool("FINE-TUNE");
+						initFineTune();
+					}}
 				/>
 				<EditorButton
-					isActive={activeTool === "annotate"}
+					isActive={activeTool === "ANNOTATE"}
 					icon="annotate"
-					handleClick={initAnnotate}
+					handleClick={() => {
+						selectActiveTool("ANNOTATE");
+						initAnnotate();
+					}}
 				/>
 			</div>
 		</div>

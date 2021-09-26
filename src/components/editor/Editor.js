@@ -2,7 +2,12 @@ import React, { useEffect, useRef, useState } from "react";
 import styles from "../../css/editor/Editor.module.scss";
 import { PropTypes } from "prop-types";
 // utils
-import { createURL, saveFile } from "../../helpers/utils_files";
+import {
+	createURL,
+	saveFile,
+	getLocalFileBlob,
+	createFileNameFromSettings,
+} from "../../helpers/utils_files";
 import {
 	cloneImgToCanvas,
 	copyImgToCanvas,
@@ -15,6 +20,9 @@ import {
 	copyAndScaleToCanvas,
 	addFilterToCanvas,
 	getPixelData,
+	cropCanvasAsHidden,
+	zoomImgOnCanvas,
+	drawTextToCanvas,
 } from "../../helpers/utils_canvas";
 import { isEmptyVal } from "../../helpers/utils_types";
 // components
@@ -22,11 +30,14 @@ import EditorCanvas from "./EditorCanvas";
 import EditorHeader from "./EditorHeader";
 import EditorFooter from "./EditorFooter";
 import EditorPreview from "./EditorPreview";
-import ThumbnailsBar from "../tools/ThumbnailsBar";
 import UploadOrClear from "../tools/UploadOrClear";
 import PreviewDownload from "../tools/PreviewDownload";
 import CanvasAnnotater from "../tools/CanvasAnnotater";
 import CropOverlay from "../tools/CropOverlay";
+
+// default image (mock)
+import imgSample from "../../assets/images/NeonGirl.jpg";
+import EditorToolbar from "./EditorToolbar";
 
 // ##TODOS:
 // - Refactor local state into more cohesive schema
@@ -36,21 +47,21 @@ import CropOverlay from "../tools/CropOverlay";
 
 // degress to increment
 const DEG = 90;
-// canvas width & height
-const WIDTH = 1200; // in px
-const HEIGHT = 600; // in px
+const ZOOM = 1; // zoom step (max zoom = 3 (ie. 300%))
 
 // canvas offsetX (left) & offsetY (top)
 
 const Editor = ({ windowSize = {} }) => {
 	const canvasRef = useRef();
+	const overlayRef = useRef();
 	// img mirror
 	const imgRef = useRef();
-	const [file, setFile] = useState(null);
-	const [filePreview, setFilePreview] = useState(null);
+	const [file, setFile] = useState(null); // new File() instance from upload
+	const [filePreview, setFilePreview] = useState(null); // objectURL
 	const [src, setSrc] = useState(null); // canvas source
-	const [previewSrc, setPreviewSrc] = useState(null);
+	const [previewSrc, setPreviewSrc] = useState(null); // preview source for <img/> preview
 	const [showPreviewModal, setShowPreviewModal] = useState(false);
+	// editor tools & state
 	const [enableCrop, setEnableCrop] = useState(false);
 	const [isDragging, setIsDragging] = useState(false);
 	const [mousePos, setMousePos] = useState({
@@ -58,7 +69,7 @@ const Editor = ({ windowSize = {} }) => {
 		y: 0,
 	});
 	// crop, filters, annotate
-	const [activeTool, setActiveTool] = useState("CROP");
+	const [activeTool, setActiveTool] = useState("");
 	// show annotate tool
 	const [showAnnotate, setShowAnnotate] = useState(false);
 	const [text, setText] = useState("");
@@ -69,9 +80,24 @@ const Editor = ({ windowSize = {} }) => {
 		filters: [],
 	});
 
-	const handleAnnotate = (e) => {
-		const { value } = e.target;
-		setText(value);
+	const initCrop = () => {
+		if (activeTool === "CROP") {
+			setEnableCrop(false);
+			return setActiveTool("");
+		} else {
+			setEnableCrop(true);
+			return setActiveTool("CROP");
+		}
+	};
+	const initFineTune = () => {
+		console.log(`Init fine tune...`);
+	};
+
+	const initAnnotate = () => {
+		setShowAnnotate(true);
+	};
+	const saveAnnotate = () => {
+		setShowAnnotate(false);
 	};
 
 	// upload file, set <img/> & <canvas/> 'src' attributes
@@ -102,8 +128,8 @@ const Editor = ({ windowSize = {} }) => {
 	// erases changes to image, set back to original upload
 	const resetUpload = () => {
 		clearCanvas(canvasRef.current, {
-			width: 1200,
-			height: 700,
+			width: canvasRef.current.width,
+			height: canvasRef.current.height,
 		});
 		setImgSettings({
 			rotateDeg: 0,
@@ -113,20 +139,60 @@ const Editor = ({ windowSize = {} }) => {
 		setSrc(copyImgToCanvas2(file, canvasRef.current));
 	};
 
+	const selectActiveTool = (tool) => {
+		switch (tool) {
+			case "CROP": {
+				if (activeTool === tool) {
+					setEnableCrop(false);
+					return setActiveTool(tool);
+				}
+				return setActiveTool("CROP");
+			}
+			case "FILTERS": {
+				if (activeTool === "FILTERS") {
+					return setActiveTool("");
+				}
+
+				return setActiveTool("FILTERS");
+			}
+			case "FINE-TUNE": {
+				if (activeTool === "FINE-TUNE") {
+					return setActiveTool("");
+				}
+				return setActiveTool("FINE-TUNE");
+			}
+			case "ANNOTATE": {
+				if (activeTool === "ANNOTATE") {
+					setShowAnnotate(false);
+					return setActiveTool("");
+				}
+				return setActiveTool("ANNOTATE");
+			}
+			default:
+				setActiveTool("");
+		}
+	};
+
+	// ##TODOS:
+	// - Hide text input possibly
+	// onChange handler for annotation input
+	const handleAnnotate = (e) => {
+		const { value } = e.target;
+		setText(value);
+
+		const { width, height } = canvasRef.current;
+
+		drawTextToCanvas(canvasRef.current, {
+			text: value,
+			font: "40px Open Sans",
+			tx: width / 2,
+			ty: height / 2,
+		});
+	};
+
 	const initPreviewDownload = () => {
 		setShowPreviewModal(true);
 		setPreviewSrc(canvasRef.current.toDataURL("image/png"));
-	};
-
-	// saves file from preview window
-	const saveFileFromPreview = () => {
-		const filename = `Edited-${file.name}`;
-		saveImgFromCanvas(canvasRef.current, filename);
-	};
-	// closes & clears preview
-	const cancelSaveFile = () => {
-		setShowPreviewModal(false);
-		setPreviewSrc(null);
 	};
 
 	// PRIMARY TOOLS: CROP, FILTERS, ANNOTATE, RE-POSITION/DRAG //
@@ -134,6 +200,8 @@ const Editor = ({ windowSize = {} }) => {
 	// ##TODOS:
 	// - Update to support multiple filters at once
 	const handleFilters = (filter) => {
+		console.log(`Filter clicked:`, filter);
+
 		addFilterToCanvas(imgRef.current, canvasRef.current, {
 			filter: filter,
 			filterVal: "10",
@@ -151,22 +219,75 @@ const Editor = ({ windowSize = {} }) => {
 		}
 	};
 
-	const initCrop = () => {
-		setEnableCrop(!enableCrop);
-		setActiveTool("CROP");
+	// ##TODOS:
+	// - Figure out how to get dimensions of crop overlay & use for canvas
+	const handleCrop = (e) => {
+		console.log(`Cropping...`);
+		// get dimensions of <CropOverlay/>
+		const { width, height, offsetLeft: sx, offsetTop: sy } = overlayRef.current;
+
+		console.log("width", width);
+		console.log("height", height);
+		console.log("sx", sx);
+		console.log("sy", sy);
+		cropCanvasAsHidden(canvasRef.current, {
+			sx: sx,
+			sy: sy,
+			sWidth: width,
+			sHeight: height,
+			dx: width,
+			dy: height,
+			dWidth: width,
+			dHeight: height,
+			canvasWidth: width,
+			canvasHeight: height,
+		});
+
+		setShowPreviewModal(true);
+		setPreviewSrc(canvasRef.current.toDataURL("image/png"));
 	};
 
-	const initAnnotate = () => {
-		setShowAnnotate(true);
+	const handleFlip = (e) => {
+		console.log(`Flipping image...`);
 	};
-	const saveAnnotate = () => {
-		setShowAnnotate(false);
+
+	// ##TODOS:
+	// - Fix zoom handling
+	const handleZoomIn = (e) => {
+		const newZoom = imgSettings.zoomPercent + ZOOM;
+
+		setImgSettings({
+			...imgSettings,
+			zoomPercent: newZoom >= 3 ? 3 : newZoom,
+		});
+
+		zoomImgOnCanvas(canvasRef.current, canvasRef.current, {
+			scaleX: 2,
+			scaleY: 2,
+		});
+	};
+	const handleZoomOut = (e) => {
+		const newZoom = imgSettings.zoomPercent - ZOOM;
+
+		setImgSettings({
+			...imgSettings,
+			zoomPercent: newZoom <= 1 ? 1 : newZoom,
+		});
+	};
+
+	const handleSaveCrop = (e) => {
+		console.log(`Saving cropped image...`);
+	};
+
+	const handleFineTune = (e) => {
+		console.log(`Fine tuning...`);
 	};
 
 	// DRAGGING IMAGE ON CANVAS
 	const handleMouseDown = (e) => {
 		const offsetX = canvasRef.current.offsetLeft;
 		const offsetY = canvasRef.current.offsetTop;
+		console.log(`Canvas was clicked!`);
 
 		setIsDragging(true);
 		setMousePos({
@@ -224,6 +345,18 @@ const Editor = ({ windowSize = {} }) => {
 		clearCanvas(canvasRef.current);
 	};
 
+	// saves file from bottom-left preview window
+	const saveFileFromPreview = () => {
+		const filename = createFileNameFromSettings(".png", imgSettings);
+		saveImgFromCanvas(canvasRef.current, filename);
+	};
+	// closes & clears preview
+	const cancelSaveFile = () => {
+		setShowPreviewModal(false);
+		setPreviewSrc(null);
+	};
+
+	// retrieves pixel data for a targeted portion of canvas
 	const getPixels = (canvasRef) => {
 		const pixels = getPixelData(canvasRef, {
 			x: 20,
@@ -234,19 +367,49 @@ const Editor = ({ windowSize = {} }) => {
 		console.log("pixels", pixels);
 	};
 
+	const clearTools = () => {
+		setActiveTool("");
+		setEnableCrop(false);
+		setShowAnnotate(false);
+	};
+
+	// sets a default image file as starting example
+	const handleLocalFileSample = async (file) => {
+		const localFile = await getLocalFileBlob(file);
+
+		setFile(localFile);
+		setFilePreview(createURL(localFile)); // set <img/> src attr
+		return setSrc(copyImgToCanvas2(localFile, canvasRef.current)); // set <canvas/> src attr
+	};
+
+	// sets mock file onMount
+	useEffect(() => {
+		let isMounted = true;
+		if (!isMounted) {
+			return;
+		}
+
+		if (isEmptyVal(file)) {
+			handleLocalFileSample(imgSample);
+		}
+
+		return () => {
+			isMounted = false;
+		};
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
+
 	return (
 		<>
 			<div className={styles.Editor}>
-				<div style={{ margin: "10rem 0" }}>
-					<button className="btn" onClick={() => getPixels(canvasRef.current)}>
-						Get Pixels
-					</button>
-				</div>
 				<div className={styles.Editor_window}>
-					<CropOverlay isEnabled={enableCrop} />
-					<EditorCanvas
+					<CropOverlay
 						canvasRef={canvasRef}
+						isEnabled={activeTool === "CROP"}
+					/>
+					<EditorCanvas
 						src={src}
+						canvasRef={canvasRef}
 						onMouseDown={handleMouseDown}
 						onMouseUp={handleMouseUp}
 						onMouseOut={handleMouseOut}
@@ -259,12 +422,14 @@ const Editor = ({ windowSize = {} }) => {
 						resetUpload={resetUpload}
 						initPreviewDownload={initPreviewDownload}
 					/>
-					{/* CROP CONTROLS SECTION */}
 					<EditorPreview />
+					{/* PRIMARY TOOL SELECTOR BUTTONS */}
 					<EditorFooter
+						selectActiveTool={selectActiveTool}
 						activeTool={activeTool}
 						initAnnotate={initAnnotate}
 						initCrop={initCrop}
+						initFineTune={initFineTune}
 					/>
 					{showAnnotate && (
 						<CanvasAnnotater
@@ -282,12 +447,22 @@ const Editor = ({ windowSize = {} }) => {
 					/>
 				</div>
 				<div className={styles.Editor_thumbnails}>
-					<ThumbnailsBar
-						imgRef={imgRef}
+					<EditorToolbar
 						src={filePreview}
-						windowSize={windowSize}
-						handleFilters={handleFilters}
+						imgRef={imgRef}
+						filePreview={filePreview}
+						winSize={windowSize}
+						activeTool={activeTool}
+						imgSettings={imgSettings}
 						activeFilters={imgSettings.filters}
+						handleFilters={handleFilters}
+						handleCrop={handleCrop}
+						handleAnnotate={handleAnnotate}
+						handleFineTune={handleFineTune}
+						handleSaveCrop={handleSaveCrop}
+						handleFlip={handleFlip}
+						handleZoomIn={handleZoomIn}
+						handleZoomOut={handleZoomOut}
 					/>
 				</div>
 			</div>

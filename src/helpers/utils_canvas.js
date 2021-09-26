@@ -82,6 +82,19 @@ const saveImgFromCanvas = (canvasEl, filename = `MyImage.png`) => {
 };
 
 /**
+ * Converts canvas source to a dataURL via built-in canvas method.
+ * @param {HTMLCanvasElement} canvasRef - Reference to canvas element.
+ * @param {Object} options - Object settings for dataURL function
+ * @param {String} options.mimeType - Target mimeType for dataURL.
+ * @param {String} options.quality - Target quality for dataURL. Value: 0.0 - 1.0
+ */
+const getCanvasDataUrlAsJPEG = (canvasRef, options = {}) => {
+	const { mimeType = "image/jpeg", quality = 1.0 } = options;
+
+	return canvasRef.toDataURL(mimeType, quality);
+};
+
+/**
  * @description - Clone an '<img/>' source and draw onto a '<canvas/>' element.
  * @param {HTMLImageElement} sourceImg - An img element to be cloned to the canvas.
  * @param {HTMLCanvasElement} targetCanvas - The 'target' canvas to draw the image to.
@@ -141,14 +154,6 @@ const clearCanvas = (canvasRef) => {
 // ctx.drawImage(imgEl, dx, dy, dWidth, dHeight)
 // ctx.drawImage(imgEl, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight)
 
-const textOptions = {
-	font: "bold 24px Raleway", // ex: 'bold 48px Raleway'
-	textAlign: "center", // start, end, left, right, center, default is 'start'
-	textBaseline: "alphabetic", // top, hanging, middle, alphabetic, ideographic, bottom
-	tx: 0, // x-position for start of text
-	ty: 0, // y-position for start of text
-};
-
 /**
  * Arguments of "drawImage":
  * - 'ctx.drawImage(imgEl, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight)'
@@ -202,6 +207,37 @@ const cropImgOnCanvas = (imgEl, canvasRef, cropDimensions = {}) => {
 	canvasRef.height = canvasHeight;
 	ctx.drawImage(
 		imgEl, // source image
+		sx, // source x-position (from left)
+		sy, // source y-position (from top)
+		sWidth, // source width
+		sHeight, // source height
+		dx, // destination x-position (from left)
+		dy, // destination y-position (from top)
+		dWidth, // final width
+		dHeight // final height
+	);
+	ctx.restore();
+};
+
+const cropCanvasAsHidden = (canvasRef, cropDimensions = {}) => {
+	const {
+		sx,
+		sy,
+		sWidth,
+		sHeight,
+		dx,
+		dy,
+		dWidth,
+		dHeight,
+		canvasWidth,
+		canvasHeight,
+	} = cropDimensions;
+
+	const ctx = canvasRef.getContext("2d");
+	canvasRef.width = canvasWidth;
+	canvasRef.height = canvasHeight;
+	ctx.drawImage(
+		canvasRef, // source image
 		sx, // source x-position (from left)
 		sy, // source y-position (from top)
 		sWidth, // source width
@@ -496,6 +532,26 @@ const addFilterToCanvas = (imgEl, canvasRef, options = {}) => {
 	}
 };
 
+/**
+ * Zooms/scales an image on a canvas by specific values.
+ * NOTE:
+ * - "ZOOM-IN": to 'zoom-in' the scale MUST be greater than 1.0
+ * - "ZOOM-OUT": to 'zoom-out' the scale MUST be less than 1.0
+ * @param {HTMLImageElement} imgEl - Reference <img/> element, used as mirror.
+ * @param {HTMLCanvasElement} canvasRef - Reference to target <canvas/> element.
+ * @param {Object} scales - A 'settings' object with 'scaleX' and 'scaleY' values.
+ */
+const zoomImgOnCanvas = (imgEl, canvasRef, scales = {}) => {
+	const { scaleX, scaleY } = scales;
+	const ctx = canvasRef.getContext("2d");
+	const canWidth = canvasRef.width;
+	const canHeight = canvasRef.height;
+	ctx.clearRect(0, 0, canWidth, canHeight);
+	ctx.scale(scaleX, scaleY);
+	ctx.drawImage(imgEl, 0, 0, canWidth, canHeight);
+	ctx.restore();
+};
+
 // returns canvas pixels from target area or entire canvas
 const getPixelData = (canvasRef, targetArea = {}) => {
 	// set defaults if values are undefined
@@ -528,7 +584,7 @@ const getPixelColor = (pixelData) => {
 
 // font = '<size> <font-family>'
 const drawTextToCanvas = (canvasRef, options = {}) => {
-	const { text, font, tx, ty } = options;
+	const { text, font = "30px Open Sans", tx, ty } = options;
 	const ctx = canvasRef.getContext("2d");
 	const imgEl = new Image();
 	ctx.drawImage(imgEl, 10, 10);
@@ -543,18 +599,23 @@ export {
 	cloneImgToCanvas,
 	copyImgToCanvas,
 	clearCanvas,
+	getCanvasDataUrlAsJPEG,
 	// experimental utils
 	cropImgOnCanvas,
+	cropCanvasAsHidden,
 	scaleImgOnCanvas,
 	copyImgToCanvas2,
 	copyAndScaleToCanvas,
 	rotateCanvas2,
 	addFilterToCanvas,
+	drawTextToCanvas,
 	// filters
 	generateFilters,
 	getPixelData,
 	getPixel,
 	getPixelColor,
+	// zoom in/out image
+	zoomImgOnCanvas,
 };
 
 export { dimensions, filterMap };

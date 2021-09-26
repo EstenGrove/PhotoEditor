@@ -1,0 +1,40 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+.EditorToolbar {
+	width: 100%;
+	height: auto;
+	min-height: 13rem;
+	border-radius: 0.5rem;
+	@include flex_row(flex-start, center);
+
+	&_panels {
+		width: 100%;
+		height: 100%;
+		border-radius: 0.5rem;
+		@include flex_row(center, center);
+		overflow-x: scroll;
+	}
+}
+
+.OriginalPreview {
+	margin-top: 1.8rem;
+	width: 16rem;
+	height: 100%;
+	min-height: 14rem;
+	border-radius: 0.5rem;
+	margin-right: 1rem;
+	@include flex_col(center, center);
+	background-color: #000;
+	box-shadow: map-get($map: $shadows, $key: "subtle");
+
+	&_label {
+		font-size: 1.3rem;
+		font-weight: 500;
+		color: map-get($map: $blueGreyMap, $key: "200");
+		text-align: center;
+		// margin-top: 0.2rem;
+		justify-self: flex-end;
+	}
+}

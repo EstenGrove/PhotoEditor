@@ -33,6 +33,44 @@ const saveFile = (blob, filename) => {
 };
 
 /**
+ * Fetches local resource & returns as file blob.
+ * @param {String|URL} filepath - A local filepath/url
+ * @returns {Blob} - Returns file blob of local file.
+ */
+const getLocalFileBlob = async (filepath) => {
+	try {
+		const request = await fetch(filepath);
+		const response = await request.blob();
+		return response;
+	} catch (err) {
+		console.log(`❌ Ooops! Fetching local file failed:`, err);
+		return err;
+	}
+};
+
+const createFileNameFromSettings = (ext = `.png`, imgSettings = {}) => {
+	const { rotateDeg, zoomPercent, filters } = imgSettings;
+
+	const hasRot = rotateDeg !== 0;
+	const hasZoom = zoomPercent !== 0;
+	const hasFilter = filters?.length > 0;
+
+	let filename = `Edited-`;
+	if (hasRot) {
+		filename += `Rotated-`;
+	}
+	if (hasZoom) {
+		filename += `Zoomed-`;
+	}
+	if (hasFilter) {
+		const filter = filters?.[filters?.length - 1];
+		filename += `${filter}`;
+	}
+	filename += ext;
+	return filename;
+};
+
+/**
  * Utils for converting, processing & working w/ files & their data.
  */
 
@@ -59,6 +97,8 @@ const convertBytes = (bytes, to = "KB") => {
 	}
 };
 
-export { createBlob, createURL, saveFile };
+export { createBlob, createURL, saveFile, getLocalFileBlob };
 
 export { convertBytes };
+
+export { createFileNameFromSettings };

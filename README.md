@@ -32,3 +32,11 @@
 
 - [Demo: Filters by Pixel](https://www.html5rocks.com/en/tutorials/canvas/imagefilters/)
 - [Demo: Move & Zoom](https://jsfiddle.net/u5ogmh9a/)
+
+**Range Input/Slider**
+
+- [Codepen Example w/ SASS](https://codepen.io/EstenGrove/pen/XWNqWeL)
+
+**Various Photo Editing Techniques:**
+
+- [Image Handling Methods](https://product.voxmedia.com/2020/10/23/21520222/building-an-in-browser-image-editor-with-react)
