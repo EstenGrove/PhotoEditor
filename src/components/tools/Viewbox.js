@@ -1,26 +1,14 @@
-import React, { useState, useRef, useEffect } from "react";
-import styles from "../../css/tools/CropOverlay.module.scss";
+import React, { useState } from "react";
+import styles from "../../css/tools/Viewbox.module.scss";
 import { PropTypes } from "prop-types";
 
-const initBoundary = (ref) => {
-	const canvas = ref.current;
-	const ctx = canvas.getContext("2d");
-	ctx.beginPath();
-	ctx.rect(20, 20, 150, 200);
-	ctx.fillStyle("#e84855");
-	ctx.stroke();
-};
-
-const initialPos = {
-	x: 217,
-	y: 696,
-};
-
-const CropOverlay = ({
-	canvasRef = null,
+const Viewbox = ({
+	overlayRef,
 	disableDrag = true,
 	isEnabled = false,
-	overlayRef = null,
+	width = 860,
+	height = 410,
+	children,
 }) => {
 	const [isDragging, setIsDragging] = useState(false);
 	const [mousePos, setMousePos] = useState({
@@ -86,30 +74,27 @@ const CropOverlay = ({
 	if (!isEnabled) {
 		return null;
 	}
+
 	return (
 		<div
-			className={styles.CropOverlay}
+			className={styles.Viewbox}
+			width={width}
+			height={height}
+			ref={overlayRef}
 			onMouseDown={disableDrag ? null : (e) => handleMouseDown(e)}
 			onMouseOut={disableDrag ? null : (e) => handleMouseOut(e)}
 			onMouseUp={disableDrag ? null : (e) => handleMouseUp(e)}
 			onMouseMove={disableDrag ? null : (e) => dragOverlay(e)}
 		>
-			<div
-				className={styles.CropOverlay_boundary}
-				width={850}
-				height={410}
-				ref={overlayRef}
-			></div>
+			{children}
+			{/*  */}
+			{/*  */}
 		</div>
 	);
 };
 
-export default CropOverlay;
+export default Viewbox;
 
-CropOverlay.defaultProps = {
-	isEnabled: false,
-};
+Viewbox.defaultProps = {};
 
-CropOverlay.propTypes = {
-	isEnabled: PropTypes.bool,
-};
+Viewbox.propTypes = {};

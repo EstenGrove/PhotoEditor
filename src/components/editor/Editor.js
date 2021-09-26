@@ -38,6 +38,7 @@ import CropOverlay from "../tools/CropOverlay";
 // default image (mock)
 import imgSample from "../../assets/images/NeonGirl.jpg";
 import EditorToolbar from "./EditorToolbar";
+import Viewbox from "../tools/Viewbox";
 
 // ##TODOS:
 // - Refactor local state into more cohesive schema
@@ -47,7 +48,7 @@ import EditorToolbar from "./EditorToolbar";
 
 // degress to increment
 const DEG = 90;
-const ZOOM = 1; // zoom step (max zoom = 3 (ie. 300%))
+const ZOOM = 0.01; // zoom step (max zoom = 3 (ie. 300%))
 
 // canvas offsetX (left) & offsetY (top)
 
@@ -190,11 +191,6 @@ const Editor = ({ windowSize = {} }) => {
 		});
 	};
 
-	const initPreviewDownload = () => {
-		setShowPreviewModal(true);
-		setPreviewSrc(canvasRef.current.toDataURL("image/png"));
-	};
-
 	// PRIMARY TOOLS: CROP, FILTERS, ANNOTATE, RE-POSITION/DRAG //
 
 	// ##TODOS:
@@ -222,26 +218,29 @@ const Editor = ({ windowSize = {} }) => {
 	// ##TODOS:
 	// - Figure out how to get dimensions of crop overlay & use for canvas
 	const handleCrop = (e) => {
-		console.log(`Cropping...`);
 		// get dimensions of <CropOverlay/>
 		const { width, height, offsetLeft: sx, offsetTop: sy } = overlayRef.current;
 
+		console.group(`Cropping...`);
 		console.log("width", width);
 		console.log("height", height);
 		console.log("sx", sx);
 		console.log("sy", sy);
-		cropCanvasAsHidden(canvasRef.current, {
-			sx: sx,
-			sy: sy,
-			sWidth: width,
-			sHeight: height,
-			dx: width,
-			dy: height,
-			dWidth: width,
-			dHeight: height,
-			canvasWidth: width,
-			canvasHeight: height,
-		});
+		console.log("overlayRef.current", overlayRef.current);
+		console.groupEnd();
+
+		// cropCanvasAsHidden(canvasRef.current, {
+		// 	sx: sx,
+		// 	sy: sy,
+		// 	sWidth: overlayRef.current.width,
+		// 	sHeight: overlayRef.current.width,
+		// 	dx: width,
+		// 	dy: height,
+		// 	dWidth: width,
+		// 	dHeight: height,
+		// 	canvasWidth: width,
+		// 	canvasHeight: height,
+		// });
 
 		setShowPreviewModal(true);
 		setPreviewSrc(canvasRef.current.toDataURL("image/png"));
@@ -262,8 +261,8 @@ const Editor = ({ windowSize = {} }) => {
 		});
 
 		zoomImgOnCanvas(canvasRef.current, canvasRef.current, {
-			scaleX: 2,
-			scaleY: 2,
+			scaleX: newZoom,
+			scaleY: newZoom,
 		});
 	};
 	const handleZoomOut = (e) => {
@@ -272,6 +271,11 @@ const Editor = ({ windowSize = {} }) => {
 		setImgSettings({
 			...imgSettings,
 			zoomPercent: newZoom <= 1 ? 1 : newZoom,
+		});
+
+		zoomImgOnCanvas(canvasRef.current, canvasRef.current, {
+			scaleX: newZoom,
+			scaleY: newZoom,
 		});
 	};
 
@@ -335,6 +339,10 @@ const Editor = ({ windowSize = {} }) => {
 				600
 			);
 		}
+	};
+	const initPreviewDownload = () => {
+		setShowPreviewModal(true);
+		setPreviewSrc(canvasRef.current.toDataURL("image/png"));
 	};
 
 	// reset canvas & file(s)
@@ -403,8 +411,9 @@ const Editor = ({ windowSize = {} }) => {
 		<>
 			<div className={styles.Editor}>
 				<div className={styles.Editor_window}>
-					<CropOverlay
+					<Viewbox
 						canvasRef={canvasRef}
+						overlayRef={overlayRef}
 						isEnabled={activeTool === "CROP"}
 					/>
 					<EditorCanvas

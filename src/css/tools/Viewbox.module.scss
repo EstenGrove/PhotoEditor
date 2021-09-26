@@ -1,0 +1,42 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+@mixin viewbox {
+	-webkit-box-shadow: 0px 0px 100px 120px rgba(0, 0, 0, 0.75);
+	-moz-box-shadow: 0px 0px 100px 120px rgba(0, 0, 0, 0.75);
+	box-shadow: 0px 0px 100px 120px rgba(0, 0, 0, 0.75);
+}
+@mixin original {
+	-webkit-box-shadow: 3px 2px 100px 300px rgba(0, 0, 0, 0.75);
+	-moz-box-shadow: 3px 2px 100px 300px rgba(0, 0, 0, 0.75);
+	box-shadow: 3px 2px 100px 300px rgba(0, 0, 0, 0.75);
+}
+
+.Viewbox {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 80%;
+	height: 70%;
+	border-radius: 0.5rem;
+	overflow: hidden;
+	border: 2px solid map-get($map: $redMap, $key: "500");
+	border-radius: 0.5rem;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background-color: transparent;
+	// x, y, blur, spread, color
+	// -webkit-box-shadow: 3px 2px 100px 300px rgba(0, 0, 0, 0.75);
+	// -moz-box-shadow: 3px 2px 100px 300px rgba(0, 0, 0, 0.75);
+	// box-shadow: 3px 2px 100px 300px rgba(0, 0, 0, 0.75);
+	@include viewbox;
+	// @include original;
+
+	z-index: 2;
+	&:hover {
+		cursor: move;
+	}
+}

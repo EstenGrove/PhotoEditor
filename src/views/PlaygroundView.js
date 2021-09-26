@@ -3,6 +3,8 @@ import styles from "../css/views/PlaygroundView.module.scss";
 import { PropTypes } from "prop-types";
 import EditorToolbar from "../components/editor/EditorToolbar";
 import EditorFooter from "../components/editor/EditorFooter";
+import Rect from "../components/shapes/Rect";
+import ResizableBox from "../components/tools/ResizableBox";
 
 const PlaygroundView = () => {
 	const [activeTool, setActiveTool] = useState("CROP");
@@ -18,16 +20,7 @@ const PlaygroundView = () => {
 				<h1 className={styles.PlaygroundView_header_title}>Playground</h1>
 			</header>
 			<div className={styles.PlaygroundView_controls}>
-				<EditorFooter
-					activeTool={activeTool}
-					initAnnotate={() => selectTool("ANNOTATE")}
-					initCrop={() => selectTool("CROP")}
-					initFilters={() => selectTool("FILTERS")}
-					initFineTune={() => selectTool("FINETUNE")}
-				/>
-			</div>
-			<div className={styles.PlaygroundView_content}>
-				<EditorToolbar activeTool={activeTool} />
+				<ResizableBox />
 			</div>
 		</div>
 	);

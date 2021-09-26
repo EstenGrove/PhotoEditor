@@ -1,0 +1,25 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+@mixin viewbox {
+	-webkit-box-shadow: 0px 0px 100px 120px rgba(0, 0, 0, 0.75);
+	-moz-box-shadow: 0px 0px 100px 120px rgba(0, 0, 0, 0.75);
+	box-shadow: 0px 0px 100px 120px rgba(0, 0, 0, 0.75);
+}
+@mixin original {
+	-webkit-box-shadow: 3px 2px 100px 300px rgba(0, 0, 0, 0.75);
+	-moz-box-shadow: 3px 2px 100px 300px rgba(0, 0, 0, 0.75);
+	box-shadow: 3px 2px 100px 300px rgba(0, 0, 0, 0.75);
+}
+
+.Rect {
+	border: 1px solid #ccc;
+	border-radius: 0.5rem;
+	background-color: transparent;
+
+	&_shape {
+		// fill: green;
+		@include viewbox;
+	}
+}
